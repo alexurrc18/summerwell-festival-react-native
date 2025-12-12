@@ -38,8 +38,8 @@ export default function TabLayout() {
         tabBarStyle: {
           backgroundColor: theme.bottomNav,
           borderTopWidth: 0,
-          paddingTop: 15,
-          height: 68 + insets.bottom
+          paddingTop: 10,
+          height: 55 + insets.bottom
         },
       }}
     >
@@ -68,9 +68,6 @@ export default function TabLayout() {
           headerTitleAlign: "center",
           headerStyle: { backgroundColor: theme.header, height: 55+insets.top },
           headerTitleStyle: { fontFamily: Typography.Header2.fontFamily, fontSize: Typography.Header2.fontSize, color: Palette.white },
-          headerRight: () => (
-            <Button buttonStyle="icon" icon={<FilterIcon fill={Palette.white} width={30} height={30} />} />
-          ),
           headerRightContainerStyle: { paddingRight: 16 },
           headerLeftContainerStyle: { paddingLeft: 16 },
         }}

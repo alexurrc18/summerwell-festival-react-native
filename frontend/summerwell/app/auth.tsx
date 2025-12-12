@@ -13,7 +13,6 @@ import Button from "@/components/ui/button";
 
 import FacebookIcon from "@/assets/icons/icon_facebook.svg";
 import GoogleIcon from "@/assets/icons/icon_google.svg";
-import AppleIcon from "@/assets/icons/icon_apple.svg";
 
 
 

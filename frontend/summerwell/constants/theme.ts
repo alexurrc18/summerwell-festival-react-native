@@ -1,13 +1,17 @@
+import { DarkTheme } from "@react-navigation/native";
 import { Platform } from "react-native";
 
 // palette colors
 
 export const Palette = {
-  black: "#FF000000",
+  black: "#000000",
   white: "#FFFFFFFF",
+
+
   lightGray: "#F3F3F6",
   gray: "#E8E6ED",
   darkGray: "#898397",
+  darkNavyBlue: "#142166",
 
   orange: "#D9883A",
   yellow: "#EBBA52",
@@ -30,6 +34,19 @@ export const Colors = {
     subheader: Palette.darkBlue,
     selected: Palette.blue,
 
+    button1: Palette.blue,
+    buttonAuth: Palette.blue,
+    buttonAuthCred: Palette.gray,
+    buttonTextLight: Palette.white,
+    buttonTextDark: Palette.darkBlue,
+
+    artistText: Palette.white,
+
+    devider1: Palette.gray,
+    devider1_50: Palette.lightGray,
+    devider2: Palette.darkGray,
+    devider3: DarkTheme,
+
   },
   dark: {
     background: Palette.darkBlue,
@@ -39,6 +56,19 @@ export const Colors = {
     header: Palette.blue,
     subheader: Palette.navyBlue,
     selected: Palette.orange,
+
+    button1: Palette.orange,
+    buttonAuth: Palette.blue,
+    buttonAuthCred: Palette.gray,
+    buttonTextLight: Palette.white,
+    buttonTextDark: Palette.darkBlue,
+
+    artistText: Palette.white,
+
+    devider1: Palette.navyBlue,
+    devider1_50: Palette.darkNavyBlue,
+    devider2: Palette.navyBlue,
+    devider3: Palette.blue,
 
   },
 } as const;

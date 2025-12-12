@@ -29,6 +29,7 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+
       <Stack>
         <Stack.Protected guard={!isLoggedIn}>
           <Stack.Screen name="auth" options={{ headerShown: false }} />
