@@ -4,6 +4,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Colors, Palette } from "@/constants/theme";
 import Artist from "@/components/ui/artist";
 import React, { useRef, useState } from "react";
+import Button from "../ui/button";
 
 const hour_width = 250;
 const row_height = 120;
@@ -40,7 +41,6 @@ export default function Schedule() {
   const stages = [
     { name: "Orange Main Stage", color: Palette.orange },
     { name: "ING Sunset Stage", color: Palette.yellow },
-    { name: "Electronic Stage", color: Palette.purple },
   ];
 
   const artists = [
@@ -101,6 +101,9 @@ export default function Schedule() {
 
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} stickyHeaderIndices={[0]} >
 
+
+
+
           {/* TIME LABELS */}
           <View style={{ backgroundColor: theme.background, zIndex: 100 }}>
              <ScrollView horizontal ref={headerScrollRef} scrollEnabled={false}showsHorizontalScrollIndicator={false}>
@@ -121,6 +124,9 @@ export default function Schedule() {
               <ScrollView horizontal ref={bodyScrollRef} onScroll={handleScroll} scrollEventThrottle={16} contentContainerStyle={{ flexGrow: 1 }}>
                   <View style={{ width: gridWidth, minHeight: '100%' }}>
                       
+
+
+
                       {/* GRID */}
                       <View style={{ position: 'absolute', top: 0, left: 16, flexDirection: 'row', height: '100%' }}>
                         {timeLabels.map((label, index) => {
@@ -136,6 +142,9 @@ export default function Schedule() {
                         })}
                       </View>
 
+
+
+
                       {/* ARTISTS */}
                       {artists.map((artist) => {
                         const position = getPosition(artist.start, artist.end);
@@ -144,7 +153,7 @@ export default function Schedule() {
                         if (stageIndex === -1) return null;
 
                         return (
-                          <View key={artist.id} style={{ position: "absolute", width: position.width, top: 40 + (stageIndex * row_height), left: position.left + 16, zIndex: 2 }}>
+                          <View key={artist.id} style={{ position: "absolute", width: position.width, top: 45 + (stageIndex * row_height), left: position.left + 16, zIndex: 2 }}>
                             <Artist schedule={true} name={artist.name} image={artist.image} time={`${artist.start}-${artist.end}`} />
                           </View>
                         );
@@ -152,8 +161,11 @@ export default function Schedule() {
                   </View>
               </ScrollView>
 
+
+
+
               {/* STAGES */}
-              <View pointerEvents="none" style={{ position: "absolute", top: 0, left: 16, bottom: 0, width: '100%' }}>
+              <View pointerEvents="none" style={{ position: "absolute", top: 10, left: 16, bottom: 0, width: '100%' }}>
                 {stages.map((stage, index) => (
                   <View key={stage.name} style={{ position: 'absolute', top: index * row_height }}>
                     <Text style={[Typography.Header3, { color: stage.color, backgroundColor: theme.background }]}>
@@ -165,6 +177,10 @@ export default function Schedule() {
 
           </View>
         </ScrollView>
+
+      <View style={{ position: 'absolute', bottom: 16, right: 16 }}>
+        <Button buttonStyle="secondary" title="MY LINE-UP" onPress={() => {}} />
+      </View>
 
       </View>
     </View>

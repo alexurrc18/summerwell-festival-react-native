@@ -7,8 +7,8 @@ import { Colors } from "@/constants/theme";
 
 
 type Props = {
-    buttonStyle: "auth_3rdparty" | "auth_credentials" | "icon" | "important";
-    title: string | undefined;
+    buttonStyle: "auth_3rdparty" | "auth_credentials" | "icon" | "important" | "secondary" | "primary";
+    title?: string | undefined;
     icon?: React.ReactNode | undefined;
     onPress?: () => void;
 };
@@ -42,7 +42,7 @@ export default function Button({ buttonStyle, title, icon, onPress }: Props) {
     return (
         <TouchableOpacity
             onPress={onPress}
-           style={{justifyContent: "center", alignItems: "center", borderRadius: 100, flexDirection: "row", padding: 8}}activeOpacity={0.85}>
+           style={{justifyContent: "center", alignItems: "center", borderRadius: 100, padding: 0}} activeOpacity={0.85}>
             {icon ? icon : null}
         </TouchableOpacity>
     );
@@ -56,8 +56,25 @@ export default function Button({ buttonStyle, title, icon, onPress }: Props) {
             </Text>
         </TouchableOpacity>
         )
-    }
-    else {
-        return null;
+    } else if (buttonStyle === "secondary"){
+        return (
+        <TouchableOpacity
+            onPress={onPress}
+            style={{backgroundColor: Palette.blue, justifyContent: "center", alignItems: "center", borderRadius: 100, flexDirection: "row", paddingVertical: 10, paddingHorizontal: 30}} activeOpacity={0.85}>
+            <Text style={[Typography.Button, { textAlign: "center", color: theme.buttonTextLight }]}>
+                {title}
+            </Text>
+        </TouchableOpacity>
+            )
+    }   else if (buttonStyle === "primary"){
+        return (
+        <TouchableOpacity
+            onPress={onPress}
+            style={{backgroundColor: Palette.orange, justifyContent: "center", alignItems: "center", borderRadius: 100, flexDirection: "row", paddingVertical: 8, paddingHorizontal: 30}} activeOpacity={0.85}>
+            <Text style={[Typography.Button, { textAlign: "center", color: theme.buttonTextLight }]}>
+                {title}
+            </Text>
+        </TouchableOpacity>
+            )
     }
 }

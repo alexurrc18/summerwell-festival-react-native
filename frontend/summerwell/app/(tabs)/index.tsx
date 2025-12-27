@@ -11,6 +11,8 @@ import Button from "@/components/ui/button";
 import Artist from "@/components/ui/artist";
 import { useFocusEffect } from "expo-router";
 
+import BellIcon from "@/assets/icons/icon_bell.svg";
+
 export default function HomeScreen() {
   const theme = Colors[useColorScheme() ?? "light"];
   const insets = useSafeAreaInsets();
@@ -49,6 +51,13 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
+
+      <View style={{ position: "absolute", flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", top: insets.top, paddingLeft: 16, paddingRight: 16, zIndex: 10000 }}>
+            <Image source={require("@/assets/images/logo.png")} style={{ left:0, width: 40, height: 40, resizeMode: "contain"}}/>
+            <View style={{ right: 0 }} >
+            <Button buttonStyle="icon" icon={<BellIcon width={30} height={30} fill={theme.textLight} />} />
+            </View>
+      </View>
 
       <ScrollView style={{ flex: 1 }}>
 

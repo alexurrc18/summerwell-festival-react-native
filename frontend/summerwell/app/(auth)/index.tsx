@@ -13,6 +13,7 @@ import Button from "@/components/ui/button";
 
 import FacebookIcon from "@/assets/icons/icon_facebook.svg";
 import GoogleIcon from "@/assets/icons/icon_google.svg";
+import { useRouter } from "expo-router";
 
 
 
@@ -20,6 +21,8 @@ import GoogleIcon from "@/assets/icons/icon_google.svg";
 export default function AuthScreen() {
   const theme = Colors[useColorScheme() ?? "light"];
   const insets = useSafeAreaInsets();
+
+  const router = useRouter();
 
   const player = useVideoPlayer(require("@/assets/videos/bg_video.mp4"), (p) => {
     p.loop = true;
@@ -62,7 +65,7 @@ export default function AuthScreen() {
             <View style={{ gap: 12 }} >
               <Button buttonStyle="auth_3rdparty" title="Continue with Facebook" icon={<FacebookIcon fill={Palette.white} width={23} height={23} />} />
               <Button buttonStyle="auth_3rdparty" title="Continue with Google" icon={<GoogleIcon fill={Palette.white} width={23} height={23} />} />
-              <Button buttonStyle="auth_credentials" title="Continue with Credentials" />
+              <Button buttonStyle="auth_credentials" title="Continue with Credentials" onPress={() => router.push('/login')} />
             </View>
           </View>
         </View>

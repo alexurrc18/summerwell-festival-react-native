@@ -90,10 +90,11 @@ export default function TabLayout() {
       <Tabs.Screen
         name="wallet"
         options={{
-          title: undefined,
+          title: "My Wallet",
           tabBarIcon: ({ color}) => (
             <WalletIcon width={30} height={30} fill={color} />
           ),
+          headerShown: false, 
         }}
       />
 
