@@ -86,6 +86,7 @@ export default function HomeScreen() {
             style={{ position: "absolute", top: 0, left: 0, right: 0, height: 375 }}
             contentFit="cover"
             nativeControls={false}
+            
           />
 
 
@@ -108,7 +109,6 @@ export default function HomeScreen() {
           <Text style={[Typography.Header2, { color: theme.textDark, marginLeft: 16 }]}>Meet the artists:</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 16 }} contentContainerStyle={{ gap: 10, paddingHorizontal: 16 }}>
 
-            {/* Temporary artists -  to populate using backend */}
             <Artist name="Charli XCX" image="https://www.atlanticrecords.com/sites/g/files/g2000015596/files/styles/artist_image_detail/public/2024-06/Charli%20XCX%20Main%20Press%20Photo%20_Credit_Harley%20Weir_0.jpg?itok=So3jfGNt" />
             <Artist name="Chappell Roan" image="https://media.pitchfork.com/photos/64ff1676931354660ba71d8b/1:1/w_4358,h_4358,c_limit/Chappell-Roan-Princess.jpg" />
             <Artist name="Fontaines D.C." image="https://i.scdn.co/image/ab67616100005174c4b9cd69cf77ce41487dd69a" />

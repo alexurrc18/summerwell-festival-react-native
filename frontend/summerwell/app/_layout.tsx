@@ -14,6 +14,11 @@ import { useEffect, useState } from 'react';
 import { API_URL } from '@/constants/config';
 
 
+SplashScreen.setOptions({
+  duration: 500,
+  fade: true
+});
+
 SplashScreen.preventAutoHideAsync();
 
 
@@ -23,6 +28,8 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
   const theme = Colors[colorScheme ?? "light"];
+
+
 
   const [appReady, setAppReady] = useState(false);
   useEffect(() => {

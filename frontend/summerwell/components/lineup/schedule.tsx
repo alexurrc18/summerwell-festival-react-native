@@ -104,9 +104,7 @@ export default function Schedule() {
           style={{ flex: 1 }}
           contentContainerStyle={{ flexGrow: 1 }}
           stickyHeaderIndices={[0]}
-          refreshControl={
-            <RefreshControl refreshing={refArtists || refStages} onRefresh={handleRefresh} tintColor={theme.selected} />
-          }>
+          refreshControl={ <RefreshControl refreshing={refArtists || refStages} onRefresh={handleRefresh} tintColor={theme.textDesc} />}>
 
           {/* TIME LABELS HEADER */}
           <View style={{ backgroundColor: theme.background, zIndex: 100 }}>

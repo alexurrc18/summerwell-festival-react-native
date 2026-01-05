@@ -104,8 +104,8 @@ export default function Artists() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              tintColor={theme.selected}
-              colors={[theme.selected]}
+              tintColor={theme.textDesc}
+              colors={[theme.textDesc]}
             />
           }
 

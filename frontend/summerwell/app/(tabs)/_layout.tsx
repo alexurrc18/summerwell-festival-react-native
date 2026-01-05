@@ -12,7 +12,8 @@ import LocationIcon from "@/assets/icons/icon_location.svg";
 import WalletIcon from "@/assets/icons/icon_wallet.svg";
 import MoreIcon from "@/assets/icons/icon_dots-horizontal.svg";
 import CalendarIcon from "@/assets/icons/icon_calendar.svg";
-import { Typography } from "@/constants/typography";
+
+import Header from "@/components/ui/header";
 
 export default function TabLayout() {
   const theme = Colors[useColorScheme() ?? "light"];
@@ -24,9 +25,9 @@ export default function TabLayout() {
         tabBarActiveTintColor: theme.selected,
         tabBarInactiveTintColor: theme.textDark,
 
-        headerShown: false,
+        headerShown: false, 
+        
         tabBarButton: HapticTab,
-
         tabBarShowLabel: false,
         tabBarLabelStyle: { display: "none" },
 
@@ -42,19 +43,18 @@ export default function TabLayout() {
       }}
     >
 
-
+      {/* HOME */}
       <Tabs.Screen
         name="index"
         options={{
-          title: undefined,
+          title: "Home",
           tabBarIcon: ({ color }) => (
             <HomeIcon width={30} height={30} fill={color} />
           ),
         }}
       />
 
-
-
+      {/* 2. MAP */}
       <Tabs.Screen
         name="map"
         options={{
@@ -63,34 +63,32 @@ export default function TabLayout() {
             <LocationIcon width={30} height={30} fill={color} />
           ),
           headerShown: true,
-          headerTitleAlign: "center",
-          headerStyle: { backgroundColor: theme.header, height: 55 + insets.top },
-          headerTitleStyle: { fontFamily: Typography.Header2.fontFamily, fontSize: Typography.Header2.fontSize, color: Palette.white },
-          headerRightContainerStyle: { paddingRight: 16 },
-          headerLeftContainerStyle: { paddingLeft: 16 },
+          header: () => (
+            <Header 
+              title="Map" 
+              backgroundColor={theme.header} 
+            />
+          ),
         }}
       />
 
-
-
+      {/* LINEUP */}
       <Tabs.Screen
         name="lineup"
         options={{
-          title: undefined,
+          title: "Lineup",
           tabBarIcon: ({ color }) => (
             <CalendarIcon width={30} height={30} fill={color} />
           ),
         }}
       />
 
-
-
+      {/* WALLET */}
       <Tabs.Screen
         name="wallet"
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
@@ -108,22 +106,17 @@ export default function TabLayout() {
         }}
       />
 
-
+      {/* MORE */}
       <Tabs.Screen
         name="more"
         options={{
-          title: undefined,
+          title: "More",
           tabBarIcon: ({ color }) => (
             <MoreIcon width={30} height={30} fill={color} />
           ),
         }}
       />
 
-
-
-
     </Tabs>
-
-
   );
 }
