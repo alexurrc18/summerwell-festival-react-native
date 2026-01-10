@@ -64,8 +64,7 @@ export default function MapScreen() {
 
 
   // map
-
-  const { data: mapPins } = useApiData<MapPin[]>('/map', 'cache_map_pins');
+  const { data: mapPins } = useApiData<MapPin[]>('/public/map', 'cache_map_pins');
 
   const mapRef = useRef<MapView>(null);
 
@@ -182,6 +181,7 @@ export default function MapScreen() {
                   {pin.category === "access" && <WristbandPin width={40} height={40} />}
                 </Marker>
               );
+              break;
           }
         })}
 

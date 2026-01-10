@@ -70,8 +70,8 @@ export default function Schedule() {
 
   const [activeTab, setActiveTab] = useState<"Friday" | "Saturday" | "Sunday">("Friday");
   const [filteredArtists, setFilteredArtists] = useState<ArtistData[]>([]);
-  const { data: allArtists, onRefresh: refreshArtists, refreshing: refArtists } = useApiData<ArtistData[]>('/artists', 'cache_artists');
-  const { data: stagesData, onRefresh: refreshStages, refreshing: refStages } = useApiData<StageData[]>('/stages', 'cache_stages');
+  const { data: allArtists, onRefresh: refreshArtists, refreshing: refArtists } = useApiData<ArtistData[]>('/public/artists', 'cache_artists');
+  const { data: stagesData, onRefresh: refreshStages, refreshing: refStages } = useApiData<StageData[]>('/public/stages', 'cache_stages');
   const stages = Array.isArray(stagesData) ? stagesData : [];
 
   const [currentTime, setCurrentTime] = useState<number>(0);

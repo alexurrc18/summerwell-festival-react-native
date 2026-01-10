@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/api/artists")
+@RequestMapping(path = "/api/v1/public/artists")
 @AllArgsConstructor
 public class ArtistApi {
 

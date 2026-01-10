@@ -2,37 +2,45 @@ import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_URL } from '@/constants/config';
 
-export function useApiData<Type>(endpoint: string, cacheKey: string) {
+const TOKEN_KEY = 'userToken';
+
+interface ApiOptions {
+  requiresAuth?: boolean;
+}
+
+export function useApiData<Type>( endpoint: string, cacheKey: string, options: ApiOptions = {}) {
+  const { requiresAuth = false } = options;
+
   const [data, setData] = useState<Type | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  // normalize data structure
-  const normalizeData = (rawData: any): Type => {
-    if (!rawData) return [] as unknown as Type;
-
-    if (Array.isArray(rawData)) {
-      return rawData as Type;
+  const normalizeData = (input: any): Type => {
+    if (!input) return input;
+    if(typeof input === 'object'){
+      const array = Object.values(input).find(v => Array.isArray(v));
+      if(array){
+        return array as unknown as Type;
+      }
     }
+    return input as Type;
+  }
 
-    if (typeof rawData === 'object') {
-      if (rawData.app_settings && Array.isArray(rawData.app_settings)) return rawData.app_settings as Type;
-      if (rawData.artists && Array.isArray(rawData.artists)) return rawData.artists as Type;
-      if (rawData.stages && Array.isArray(rawData.stages)) return rawData.stages as Type;
-      if (rawData.map && Array.isArray(rawData.map)) return rawData.map as Type;
-
-      const values = Object.values(rawData);
-      const foundArray = values.find(val => Array.isArray(val));
-      if (foundArray) return foundArray as Type;
-    }
-
-    return rawData as Type;
-  };
-
-  // fetch api
   const fetchData = async () => {
     try {
-      const response = await fetch(`${API_URL}${endpoint}`);
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+
+      if (requiresAuth) {
+        const token = await AsyncStorage.getItem(TOKEN_KEY);
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      const response = await fetch(`${API_URL}${endpoint}`, {
+        method: 'GET',
+        headers: headers,
+      });
 
       if (response.ok) {
         const json = await response.json();
@@ -41,34 +49,31 @@ export function useApiData<Type>(endpoint: string, cacheKey: string) {
         await AsyncStorage.setItem(cacheKey, JSON.stringify(cleanData));
         setData(cleanData);
       } else {
-        console.warn(`ERROR: ${response.status} @ ${endpoint}`);
+        console.warn(`API Error: ${response.status}`);
       }
     } catch (error) {
-      console.error("ERROR: ", error);
+      console.log("Offline mode.");
     }
   };
 
-  // load cache
   useEffect(() => {
     const init = async () => {
       try {
         const cached = await AsyncStorage.getItem(cacheKey);
-        if (cached) setData(normalizeData(JSON.parse(cached)));
-      } catch (e) { console.warn(e); }
+        if (cached) setData(JSON.parse(cached));
+      } catch (e) { }
       finally { setLoading(false); }
 
       await fetchData();
     };
-
     init();
-  }, [endpoint, cacheKey]);
+  }, [endpoint, cacheKey, requiresAuth]);
 
-  // pull to refresh
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await fetchData();
     setRefreshing(false);
-  }, [endpoint, cacheKey]);
+  }, [endpoint, cacheKey, requiresAuth]);
 
   return { data, loading, refreshing, onRefresh };
 }

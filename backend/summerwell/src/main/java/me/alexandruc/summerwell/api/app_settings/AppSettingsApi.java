@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/api/app_settings")
+@RequestMapping(path = "/api/v1/public/app_settings")
 @AllArgsConstructor
 public class AppSettingsApi {
 

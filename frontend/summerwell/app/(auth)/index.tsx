@@ -26,7 +26,7 @@ export default function AuthScreen() {
 
   const player = useVideoPlayer(require("@/assets/videos/bg_video.mp4"), (p) => {
     p.loop = true;
-    p.muted = true;
+    p.muted = false;
     p.play();
   });
 

@@ -46,7 +46,7 @@ export default function HomeScreen() {
   const router = useRouter();
 
   // fetching app settings from cache
-  const { data: settings } = useApiData<AppSettingsData[]>('/app_settings', 'cache_app_settings');
+  const { data: settings } = useApiData<AppSettingsData[]>('/public/app_settings', 'cache_app_settings');
 
 
   // countdown timer

@@ -21,7 +21,7 @@ export default function Artists() {
   const theme = Colors[useColorScheme() ?? "light"];
   const [activeTab, setActiveTab] = useState<"All" | "Friday" | "Saturday" | "Sunday">("All");
 
-  const { data: artists, loading, refreshing, onRefresh } = useApiData<ArtistData[]>('/artists', 'cache_artists');
+  const { data: artists, loading, refreshing, onRefresh } = useApiData<ArtistData[]>('/public/artists', 'cache_artists');
   
   const [filteredArtists, setFilteredArtists] = useState<ArtistData[]>([]);
 

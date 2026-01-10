@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("/api/map")
+@RequestMapping("/api/v1/public/map")
 @AllArgsConstructor
 public class MapApi {
 

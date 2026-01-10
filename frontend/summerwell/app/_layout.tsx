@@ -12,6 +12,7 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useEffect, useState } from 'react';
 import { API_URL } from '@/constants/config';
+import { AuthProvider } from '@/context/AuthContext';
 
 
 SplashScreen.setOptions({
@@ -36,11 +37,9 @@ export default function RootLayout() {
     async function prepare() {
       try {
         console.log("SYSTEM: Preloading data...");
-
-
-        const [artistsRes, stagesRes] = await Promise.all([
-          fetch(`${API_URL}/artists`),
-          fetch(`${API_URL}/stages`)
+        const [artistsRes, stagesRes] = await Promise.all([ 
+          fetch(`${API_URL}/public/artists`),
+          fetch(`${API_URL}/public/stages`)
         ]);
 
         if (artistsRes.ok) {
@@ -57,9 +56,9 @@ export default function RootLayout() {
             console.log(`SYSTEM: Downloading ${imageUrls.length} images...`);
 
             const imagePromises = imageUrls.map((url: string) => Image.prefetch(url));
-            
+
             await Promise.all(imagePromises);
-            
+
             console.log("[✓] Artist images cached to disk.");
           }
 
@@ -102,21 +101,20 @@ export default function RootLayout() {
     return null;
   }
 
-  const isLoggedIn = true;
-
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <AuthProvider>
+        <Stack initialRouteName="(tabs)" screenOptions={{ headerShown: false }}>
 
-      <Stack>
-        <Stack.Protected guard={!isLoggedIn}>
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        </Stack.Protected>
+          <Stack.Screen name="(tabs)" />
 
-        <Stack.Protected guard={isLoggedIn}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        </Stack.Protected>
-      </Stack>
+          <Stack.Screen
+            name="(auth)"
+            options={{ headerShown: false}}
+          />
+
+        </Stack>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

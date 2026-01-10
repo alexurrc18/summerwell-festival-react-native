@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api/ticket-types")
+@RequestMapping("/api/v1/public/ticket-types")
 @RequiredArgsConstructor
 public class TicketTypeApi {
     

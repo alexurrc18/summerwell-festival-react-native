@@ -11,17 +11,7 @@ export default function Input(props: TextInputProps) {
   return (
     <TextInput
       placeholderTextColor={theme.textDark}
-      style={[
-        Typography.Body1,
-        {
-          color: theme.textDark,
-          borderWidth: 1,
-          borderColor: theme.devider2,
-          borderRadius: 10,
-          padding: 15,
-        },
-        style,
-      ]}
+      style={[ Typography.Body1, { color: theme.textDark, borderWidth: 1, borderColor: theme.devider2, borderRadius: 10, padding: 15,}, style ]}
       {...otherProps}
     />
   );
