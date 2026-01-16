@@ -1,31 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Pressable, ViewStyle } from "react-native";
-import Animated, {
-    useSharedValue,
-    useAnimatedStyle,
-    withSpring,
-    withTiming
-} from 'react-native-reanimated';
+import { Pressable, useColorScheme} from "react-native";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import * as Haptics from "expo-haptics";
-import { Palette } from "@/constants/theme";
+import { Colors, Palette } from "@/constants/theme";
 
 import HeartFilledIcon from "@/assets/icons/icon_heart_filled.svg";
 import HeartIcon from "@/assets/icons/icon_heart.svg";
+import { useAuth } from "@/context/AuthContext";
 
 interface FavHeartProps {
-    favorite?: boolean;
+    id: number;
     iconScale?: number;
-    onToggle?: (newState: boolean) => void;
+    scheduleStyle?: boolean;
 }
 
-export default function FavHeart({ favorite = false, iconScale = 30, onToggle }: FavHeartProps) {
-    const [isLiked, setIsLiked] = useState(favorite);
-
+export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: FavHeartProps) {
+    const { toggleFavoriteArtist, localFavoriteArtists } = useAuth();
     const scale = useSharedValue(1);
-
-    useEffect(() => {
-        setIsLiked(favorite);
-    }, [favorite]);
+    const theme = Colors[useColorScheme() ?? "light"];
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -39,13 +30,9 @@ export default function FavHeart({ favorite = false, iconScale = 30, onToggle }:
     };
 
     const handlePress = () => {
-        const newState = !isLiked;
-
-        setIsLiked(newState);
-        if (onToggle) onToggle(newState);
+        toggleFavoriteArtist(id);
 
         scale.value = withTiming(1, { duration: 100 });
-
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     };
 
@@ -55,13 +42,23 @@ export default function FavHeart({ favorite = false, iconScale = 30, onToggle }:
 
     return (
         <Pressable onPressIn={handlePressIn} onPress={handlePress} onPressOut={handlePressOut} style={{ width: iconScale, height: iconScale, justifyContent: "center", alignItems: "center" }}>
-            <Animated.View style={[animatedStyle, { shadowColor: Palette.black, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.5, shadowRadius: 3, justifyContent: 'center', alignItems: 'center'}]}>
-                {isLiked ? (
-                    <HeartFilledIcon fill={Palette.pink} width={iconScale} height={iconScale} />
-                ) : (
-                    <HeartIcon fill={Palette.white} width={iconScale} height={iconScale} />
-                )}
-            </Animated.View>
+            {scheduleStyle ? (
+                <Animated.View style={[animatedStyle, { shadowColor: Palette.black, shadowOffset: { width: 0, height: 0 },justifyContent: 'center', alignItems: 'center' }]}>
+                    {localFavoriteArtists.includes(Number(id)) ? (
+                        <HeartFilledIcon fill={Palette.pink} width={iconScale} height={iconScale} />
+                    ) : (
+                        <HeartIcon fill={theme.textDark} width={iconScale} height={iconScale} />
+                    )}
+                </Animated.View>
+            ) : (
+                <Animated.View style={[animatedStyle, { shadowColor: Palette.black, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.5, shadowRadius: 3, justifyContent: 'center', alignItems: 'center' }]}>
+                    {localFavoriteArtists.includes(Number(id)) ? (
+                        <HeartFilledIcon fill={Palette.pink} width={iconScale} height={iconScale} />
+                    ) : (
+                        <HeartIcon fill={Palette.white} width={iconScale} height={iconScale} />
+                    )}
+                </Animated.View>
+            )}
         </Pressable>
     );
 }

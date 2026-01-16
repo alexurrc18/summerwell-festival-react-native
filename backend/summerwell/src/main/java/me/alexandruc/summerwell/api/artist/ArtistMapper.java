@@ -17,6 +17,7 @@ public class ArtistMapper {
         data.setStageName(artist.getStage().getName());
         data.setActStart(artist.getActStart().toString());
         data.setActEnd(artist.getActEnd().toString());
+        data.setPriority(artist.getPriority());
         
         return data;
     }

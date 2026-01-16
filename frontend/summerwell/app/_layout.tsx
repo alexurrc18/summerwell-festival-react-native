@@ -110,7 +110,7 @@ export default function RootLayout() {
 
           <Stack.Screen
             name="(auth)"
-            options={{ headerShown: false }}
+            options={{ headerShown: false, presentation: 'fullScreenModal' }}
           />
 
         </Stack>

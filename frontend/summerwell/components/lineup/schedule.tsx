@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import Button from "../ui/button";
 import { useApiData } from "@/hooks/apiData";
 import TimeIndicator from "@/components/ui/time-indicator";
+import { useAuth } from "@/context/AuthContext";
 
 type ArtistData = {
   id: number;
@@ -31,7 +32,10 @@ const start_hour = 18;
 const header_height = 40;
 const last_col_width = 60;
 
+
 const timeLabels = ["18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00", "01:00"];
+
+
 
 const getTime = (time: string) => {
   if (!time) return 0;
@@ -43,6 +47,7 @@ const getTime = (time: string) => {
   }
 };
 
+
 const getPosition = (start: string, end: string) => {
   const startTime = getTime(start);
   const endTime = getTime(end);
@@ -53,6 +58,7 @@ const getPosition = (start: string, end: string) => {
   return { left, width };
 };
 
+
 const getStartPosition = (start: string) => {
   const startTime = getTime(start);
 
@@ -60,6 +66,9 @@ const getStartPosition = (start: string) => {
 
   return { left };
 };
+
+
+
 
 
 export default function Schedule() {
@@ -70,11 +79,19 @@ export default function Schedule() {
 
   const [activeTab, setActiveTab] = useState<"Friday" | "Saturday" | "Sunday">("Friday");
   const [filteredArtists, setFilteredArtists] = useState<ArtistData[]>([]);
+  const { localFavoriteArtists } = useAuth();
+
+  const [filter, setFilter] = useState<"MY LINE-UP" | "FULL LINE-UP">("FULL LINE-UP");
+
+
   const { data: allArtists, onRefresh: refreshArtists, refreshing: refArtists } = useApiData<ArtistData[]>('/public/artists', 'cache_artists');
   const { data: stagesData, onRefresh: refreshStages, refreshing: refStages } = useApiData<StageData[]>('/public/stages', 'cache_stages');
+
   const stages = Array.isArray(stagesData) ? stagesData : [];
 
   const [currentTime, setCurrentTime] = useState<number>(0);
+
+
 
   useEffect(() => {
     const updateTime = () => {
@@ -83,7 +100,6 @@ export default function Schedule() {
       const minutes = now.getMinutes();
       setCurrentTime(getStartPosition(`${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`).left);
     }
-
     updateTime();
     const interval = setInterval(() => {
       updateTime();
@@ -92,6 +108,9 @@ export default function Schedule() {
     return () => clearInterval(interval);
   }, []);
 
+
+
+
   useEffect(() => {
     const list = Array.isArray(allArtists) ? allArtists : [];
 
@@ -99,14 +118,21 @@ export default function Schedule() {
     if (activeTab === "Saturday") targetDay = 2;
     if (activeTab === "Sunday") targetDay = 3;
 
-    setFilteredArtists(list.filter(a => a.day === targetDay));
-  }, [activeTab, allArtists]);
+    if (filter === "MY LINE-UP") {
+      setFilteredArtists(list.filter(artist => artist.day === targetDay && localFavoriteArtists.includes(Number(artist.id))));
+    } else { 
+      setFilteredArtists(list.filter(artist => artist.day === targetDay)); 
+    }
+  }, [activeTab, allArtists, filter, localFavoriteArtists]);
 
   const handleRefresh = useCallback(async () => {
     await Promise.all([refreshArtists(), refreshStages()]);
   }, [refreshArtists, refreshStages]);
 
   const gridWidth = (timeLabels.length - 1) * hour_width + last_col_width + 16;
+
+
+
 
 
   return (
@@ -203,6 +229,7 @@ export default function Schedule() {
                   return (
                     <View key={artist.id} style={{ position: "absolute", width: position.width, top: 45 + (stageIndex * row_height), left: position.left + 16, zIndex: 2 }}>
                       <Artist
+                        id={artist.id}
                         schedule={true}
                         name={artist.name}
                         image={artist.image}
@@ -220,36 +247,39 @@ export default function Schedule() {
             <View pointerEvents="none" style={{ position: "absolute", top: 10, left: 16, bottom: 0, width: '100%', zIndex: 10 }}>
               {stages.map((stage, index) => (
                 <View key={stage.name} style={{ position: 'absolute', top: index * row_height }}>
-                  <Text style={[Typography.Header3, { color: Palette[stage.color as keyof typeof Palette] || Palette.white, backgroundColor: theme.background}]}>
+                  <Text style={[Typography.Header3, { color: Palette[stage.color as keyof typeof Palette] || Palette.white, backgroundColor: theme.background }]}>
                     {stage.name}
                   </Text>
                 </View>
               ))}
             </View>
-      
-            
+
+
 
           </View>
 
           {/* TIME INDICATOR */}
           {currentTime > 5 &&
-              <Animated.View pointerEvents="none" style={{ position: 'absolute', top: 10, bottom: 0, left: 0, width: gridWidth, zIndex: 9999,
-                  transform: [{
-                    translateX: scrollX.interpolate({
-                      inputRange: [0, gridWidth],
-                      outputRange: [0, -gridWidth],
-                      extrapolate: 'clamp'
-                    })
-                  }]
-                }}>
-                  <TimeIndicator position={currentTime + 16}/>
-              </Animated.View>
-            }
+            <Animated.View pointerEvents="none" style={{
+              position: 'absolute', top: 10, bottom: 0, left: 0, width: gridWidth, zIndex: 9999,
+              transform: [{
+                translateX: scrollX.interpolate({
+                  inputRange: [0, gridWidth],
+                  outputRange: [0, -gridWidth],
+                  extrapolate: 'clamp'
+                })
+              }]
+            }}>
+              <TimeIndicator position={currentTime + 16} />
+            </Animated.View>
+          }
 
         </ScrollView>
 
         <View style={{ position: 'absolute', bottom: 16, right: 16 }}>
-          <Button buttonStyle="secondary" title="MY LINE-UP" onPress={() => { }} />
+          <Button buttonStyle="secondary" title={filter === "FULL LINE-UP" ? "MY LINE-UP" : "FULL LINE-UP"} onPress={() => { 
+            setFilter(filter === "FULL LINE-UP" ? "MY LINE-UP" : "FULL LINE-UP");
+             }} />
         </View>
 
       </View>

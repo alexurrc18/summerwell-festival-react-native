@@ -33,7 +33,7 @@ export default function LoginScreen() {
                             What's your email address?
                         </Text>
 
-                        <Input value={email} onChangeText={setEmail} placeholder="E-Mail" autoFocus={true} spellCheck={false} textContentType="emailAddress" inputMode="email" autoCapitalize="none" />
+                        <Input value={email} onChangeText={setEmail} placeholder="E-Mail" autoFocus={true} spellCheck={false} textContentType="emailAddress" inputMode="email" autoCapitalize="none" keyboardType="email-address" autoCorrect={false} />
 
                         <Text style={[Typography.Body2, { color: theme.textDark, opacity: 0.7 }]}>
                             We will send a 6 number PIN to your email address that you can use to login.

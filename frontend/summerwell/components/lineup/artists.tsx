@@ -1,4 +1,3 @@
-// 1. IMPORTAM RefreshControl
 import { View, Text, SectionList, Pressable, ActivityIndicator, RefreshControl } from "react-native";
 import { Typography } from "@/constants/typography";
 import { Colors, Palette } from "@/constants/theme";
@@ -8,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useApiData } from "@/hooks/apiData";
 
 type ArtistData = {
-  id: string;
+  id: number;
   name: string;
   image: string;
   stageName: string;

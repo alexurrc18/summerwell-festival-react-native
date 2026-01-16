@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("/api/v1/public/stages")
 @AllArgsConstructor
-public class StageApi {
+public class StageController {
 
     private final StageMapper stageMapper;
     private final StageService stageService;

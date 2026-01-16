@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/api/v1/public/artists")
 @AllArgsConstructor
-public class ArtistApi {
+public class ArtistController {
 
     private final ArtistService artistService;
     private final ArtistRepository artistRepository;

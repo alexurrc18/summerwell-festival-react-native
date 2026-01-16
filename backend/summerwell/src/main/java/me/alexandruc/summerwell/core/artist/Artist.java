@@ -37,4 +37,7 @@ public class Artist {
 
     @Column(name = "act_end", nullable = false)
     private LocalTime actEnd;
+
+    @Column(name = "priority", nullable = true)
+    private Integer priority;
 }

@@ -1,20 +1,24 @@
 import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_URL } from '@/constants/config';
+import * as SecureStore from 'expo-secure-store';
+import { API_URL, TOKEN_KEY } from '@/constants/config';
+import api from '@/services/api';
 
-const TOKEN_KEY = 'userToken';
 
 interface ApiOptions {
-  requiresAuth?: boolean;
+  dependency?: any;
 }
 
+
 export function useApiData<Type>( endpoint: string, cacheKey: string, options: ApiOptions = {}) {
-  const { requiresAuth = false } = options;
+  const { dependency } = options;
 
   const [data, setData] = useState<Type | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
+
+  // Normalize data structure
   const normalizeData = (input: any): Type => {
     if (!input) return input;
     if(typeof input === 'object'){
@@ -26,24 +30,14 @@ export function useApiData<Type>( endpoint: string, cacheKey: string, options: A
     return input as Type;
   }
 
+
+  // Fetch data from API
   const fetchData = async () => {
     try {
-      const headers: HeadersInit = {
-        'Content-Type': 'application/json',
-      };
+      const response = await api.get(endpoint);
 
-      if (requiresAuth) {
-        const token = await AsyncStorage.getItem(TOKEN_KEY);
-        if (token) headers['Authorization'] = `Bearer ${token}`;
-      }
-
-      const response = await fetch(`${API_URL}${endpoint}`, {
-        method: 'GET',
-        headers: headers,
-      });
-
-      if (response.ok) {
-        const json = await response.json();
+      if (response.status === 200) {
+        const json = response.data;
         const cleanData = normalizeData(json);
 
         await AsyncStorage.setItem(cacheKey, JSON.stringify(cleanData));
@@ -52,10 +46,12 @@ export function useApiData<Type>( endpoint: string, cacheKey: string, options: A
         console.warn(`API Error: ${response.status}`);
       }
     } catch (error) {
-      console.log("Offline mode.");
+      console.warn("[WARNING] Servers are unreachable. Using cached data.", error);
     }
   };
 
+
+  // Initialize data
   useEffect(() => {
     const init = async () => {
       try {
@@ -67,13 +63,22 @@ export function useApiData<Type>( endpoint: string, cacheKey: string, options: A
       await fetchData();
     };
     init();
-  }, [endpoint, cacheKey, requiresAuth]);
+  }, [endpoint, cacheKey, dependency]);
 
+
+  // Refresh handler
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     await fetchData();
     setRefreshing(false);
-  }, [endpoint, cacheKey, requiresAuth]);
+  }, [endpoint, cacheKey, dependency]);
+
+
+  // Refetch when dependencies change
+  useEffect(() => {
+    fetchData();
+  }, [endpoint, dependency]);
 
   return { data, loading, refreshing, onRefresh };
 }
+

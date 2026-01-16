@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(path = "/api/v1/public/app_settings")
 @AllArgsConstructor
-public class AppSettingsApi {
+public class AppSettingsController {
 
     private final AppSettingsService appSettingsService;
     private final AppSettingsMapper appSettingsMapper;

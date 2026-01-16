@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { View, Image, Text, ScrollView, AppState, Animated } from "react-native";
+import React, { use, useCallback, useEffect, useRef, useState } from "react";
+import { View, Image, Text, ScrollView, AppState, Animated, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useFocusEffect, useRouter } from "expo-router";
@@ -22,21 +22,29 @@ type AppSettingsData = {
   value: string;
 };
 
+type ArtistData = {
+  id: number;
+  name: string;
+  image: string;
+  priority?: number;
+};
+
+
 const formatTime = (targetTime: number) => {
-    const now = Date.now();
-    const difference = targetTime - now;
+  const now = Date.now();
+  const difference = targetTime - now;
 
-    if (difference <= 0) return "See you there!";
+  if (difference <= 0) return "See you there!";
 
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-    const pad = (n: number) => (n < 10 ? `0${n}` : n);
+  const pad = (n: number) => (n < 10 ? `0${n}` : n);
 
-    return `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-  };
+  return `${pad(days)}:${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+};
 
 
 export default function HomeScreen() {
@@ -47,6 +55,9 @@ export default function HomeScreen() {
 
   // fetching app settings from cache
   const { data: settings } = useApiData<AppSettingsData[]>('/public/app_settings', 'cache_app_settings');
+  const { data: artists } = useApiData<ArtistData[]>('/public/artists', 'cache_artists');
+
+  const artistsData = Array.isArray(artists) ? artists : [];
 
 
   // countdown timer
@@ -57,10 +68,10 @@ export default function HomeScreen() {
 
     if (!dateSetting) return;
     const targetTime = new Date(dateSetting.value).getTime();
-    
+
     if (isNaN(targetTime)) {
-        console.warn("ERROR: Invalid data set in database app_settings: ", dateSetting.value);
-        return;
+      console.warn("ERROR: Invalid data set in database app_settings: ", dateSetting.value);
+      return;
     }
 
     setTimeLeft(formatTime(targetTime));
@@ -104,11 +115,11 @@ export default function HomeScreen() {
 
   useFocusEffect(
     useCallback(() => {
-        try {
-          player.play();
-        } catch (error) {
-          console.log(error);
-        }
+      try {
+        player.play();
+      } catch (error) {
+        console.log(error);
+      }
       return () => {
         try {
           player.pause();
@@ -132,7 +143,7 @@ export default function HomeScreen() {
     const scrollY = event.nativeEvent.contentOffset.y;
     const threshold = 250;
 
-    if(scrollY > threshold && !isHeaderVisible.current) {
+    if (scrollY > threshold && !isHeaderVisible.current) {
       isHeaderVisible.current = true;
       Animated.timing(headerAnim, {
         toValue: 1,
@@ -148,7 +159,7 @@ export default function HomeScreen() {
       }).start();
     }
   }
-  
+
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
@@ -192,9 +203,25 @@ export default function HomeScreen() {
           <Text style={[Typography.Header2, { color: theme.textDark, marginLeft: 16 }]}>Meet the artists:</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 16 }} contentContainerStyle={{ gap: 10, paddingHorizontal: 16 }}>
 
-            <Artist name="Charli XCX" image="https://www.atlanticrecords.com/sites/g/files/g2000015596/files/styles/artist_image_detail/public/2024-06/Charli%20XCX%20Main%20Press%20Photo%20_Credit_Harley%20Weir_0.jpg?itok=So3jfGNt" />
-            <Artist name="Chappell Roan" image="https://media.pitchfork.com/photos/64ff1676931354660ba71d8b/1:1/w_4358,h_4358,c_limit/Chappell-Roan-Princess.jpg" />
-            <Artist name="Fontaines D.C." image="https://i.scdn.co/image/ab67616100005174c4b9cd69cf77ce41487dd69a" />
+            {artistsData?.filter(artist => artist.priority !== null)?.sort((a, b) => {
+              const prA = a.priority ?? 9999;
+              const prB = b.priority ?? 9999;
+              return prA - prB;
+            }).map((artist) => {
+              return (
+                <Artist
+                  key={artist.id}
+                  id={artist.id}
+                  name={artist.name}
+                  image={artist.image}
+                />
+              );
+            })}
+
+            <Pressable onPress={() => router.push("/lineup")} >
+              <Artist placeholder={true} name="...and many more!" />
+            </Pressable>
+
 
           </ScrollView>
 

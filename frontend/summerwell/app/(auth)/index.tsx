@@ -16,7 +16,7 @@ import GoogleIcon from "@/assets/icons/icon_google.svg";
 import { useRouter } from "expo-router";
 import Header from "@/components/ui/header";
 
-import LeftChevronIcon from "@/assets/icons/icon_chevron-left.svg";
+import XIcon from "@/assets/icons/icon_x.svg";
 
 
 
@@ -47,7 +47,7 @@ export default function AuthScreen() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <View style={{ height: insets.top, position: "absolute", top: 0, left: 0, right: 0, zIndex: 10 }}>
-      <Header backgroundColor="transparent" left={<LeftChevronIcon width={32} height={32} fill={Palette.white} onPress={() => router.back()} />} />
+      <Header backgroundColor="transparent" left={<XIcon width={32} height={32} fill={Palette.white} onPress={() => router.back()} />} />
       </View>
 
       <View style={{ height: "100%", width: "100%" }}>
