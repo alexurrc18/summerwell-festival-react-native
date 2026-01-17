@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Pressable, useColorScheme} from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import * as Haptics from "expo-haptics";
@@ -17,6 +18,7 @@ export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: 
     const { toggleFavoriteArtist, localFavoriteArtists } = useAuth();
     const scale = useSharedValue(1);
     const theme = Colors[useColorScheme() ?? "light"];
+    const [isFavorite, setIsFavorite] = useState<boolean>(localFavoriteArtists.includes(Number(id)));
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -31,6 +33,7 @@ export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: 
 
     const handlePress = () => {
         toggleFavoriteArtist(id);
+        setIsFavorite(!isFavorite);
 
         scale.value = withTiming(1, { duration: 100 });
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -44,7 +47,7 @@ export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: 
         <Pressable onPressIn={handlePressIn} onPress={handlePress} onPressOut={handlePressOut} style={{ width: iconScale, height: iconScale, justifyContent: "center", alignItems: "center" }}>
             {scheduleStyle ? (
                 <Animated.View style={[animatedStyle, { shadowColor: Palette.black, shadowOffset: { width: 0, height: 0 },justifyContent: 'center', alignItems: 'center' }]}>
-                    {localFavoriteArtists.includes(Number(id)) ? (
+                    {isFavorite ? (
                         <HeartFilledIcon fill={Palette.pink} width={iconScale} height={iconScale} />
                     ) : (
                         <HeartIcon fill={theme.textDark} width={iconScale} height={iconScale} />
@@ -52,7 +55,7 @@ export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: 
                 </Animated.View>
             ) : (
                 <Animated.View style={[animatedStyle, { shadowColor: Palette.black, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.5, shadowRadius: 3, justifyContent: 'center', alignItems: 'center' }]}>
-                    {localFavoriteArtists.includes(Number(id)) ? (
+                    {isFavorite ? (
                         <HeartFilledIcon fill={Palette.pink} width={iconScale} height={iconScale} />
                     ) : (
                         <HeartIcon fill={Palette.white} width={iconScale} height={iconScale} />
