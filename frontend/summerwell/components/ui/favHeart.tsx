@@ -32,7 +32,7 @@ export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: 
     };
 
     const handlePress = () => {
-        toggleFavoriteArtist(id);
+        toggleFavoriteArtist(Number(id));
         setIsFavorite(!isFavorite);
 
         scale.value = withTiming(1, { duration: 100 });
