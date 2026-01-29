@@ -27,6 +27,9 @@ type ArtistData = {
   name: string;
   image: string;
   priority?: number;
+  description: string;
+  urlInstagram: string;
+  urlSpotify: string;
 };
 
 
@@ -214,6 +217,9 @@ export default function HomeScreen() {
                   id={artist.id}
                   name={artist.name}
                   image={artist.image}
+                  description={artist.description}
+                  urlInstagram={artist.urlInstagram}
+                  urlSpotify={artist.urlSpotify}
                 />
               );
             })}

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface StageRepository extends JpaRepository<Stage, Long> {
 
-    List<Stage> findAll();
+    List<Stage> findAllByPublished(Boolean published);
     
     
 }

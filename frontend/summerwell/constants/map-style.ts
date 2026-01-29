@@ -144,5 +144,8 @@ export const useMapStyle = () => {
     }
   ], [theme]);
 
-  return mapStyle;
+  return {
+    mapStyle,
+    loadingBackgroundColor: theme.mapManMade
+  };
 };

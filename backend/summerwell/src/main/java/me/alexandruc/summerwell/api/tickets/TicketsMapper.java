@@ -1,15 +1,15 @@
-package me.alexandruc.summerwell.api.ticket_type;
+package me.alexandruc.summerwell.api.tickets;
 
 import org.springframework.stereotype.Component;
 
-import me.alexandruc.summerwell.core.ticket_type.TicketType;
+import me.alexandruc.summerwell.core.tickets.Tickets;
 
 @Component
-public class TicketTypeMapper {
-    public TicketTypeData toData(TicketType ticketType) {
+public class TicketsMapper {
+    public TicketsData toData(Tickets ticketType) {
         if (ticketType == null) return null;
 
-        TicketTypeData data = new TicketTypeData();
+        TicketsData data = new TicketsData();
         data.setTicketId(ticketType.getTicketId().toString());
         data.setName(ticketType.getName());
         data.setType(ticketType.getType());

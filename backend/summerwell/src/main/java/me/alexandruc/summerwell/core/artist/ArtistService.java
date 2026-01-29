@@ -9,11 +9,11 @@ import java.util.List;
 public class ArtistService {
     private final ArtistRepository artistRepository;
 
-    public List<Artist> getAllArtists() {
-        return artistRepository.findAll();
+    public List<Artist> getAllByPublished(Boolean published) {
+        return artistRepository.findAllByPublished(published);
     }
     
-    public List<Artist> getArtistsByDay(Integer day) {
-        return artistRepository.findAllByDayNumber(day);
+    public List<Artist> getArtistsByPublishedAndDay(Integer day) {
+        return artistRepository.findAllByPublishedAndDayNumber(true, day);
     }
 }

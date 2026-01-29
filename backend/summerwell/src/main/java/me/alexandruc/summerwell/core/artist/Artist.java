@@ -40,4 +40,16 @@ public class Artist {
 
     @Column(name = "priority", nullable = true)
     private Integer priority;
+
+    @Column(name = "description", columnDefinition = "TEXT", nullable = true)
+    private String description;
+
+    @Column(name = "url_instagram", nullable = true)
+    private String urlInstagram;
+
+    @Column(name = "url_spotify", nullable = true)
+    private String urlSpotify;
+
+    @Column(name = "published", nullable = false)
+    private Boolean published;
 }

@@ -33,7 +33,7 @@ export default function CartScreen() {
       </ScrollView>
 
       <View style={{position: 'absolute', bottom: 16, alignSelf: 'center'}}>
-          <Button title="CONTINUE" buttonStyle="primary" onPress={() => {router.push("/(tabs)/wallet/checkout")}}/>
+          <Button title="CONTINUE" variant="primary" onPress={() => {router.push("/(tabs)/wallet/checkout")}}/>
       </View>
 
     </View>

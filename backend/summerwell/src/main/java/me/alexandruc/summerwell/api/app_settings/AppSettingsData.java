@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
 @Data
-@JsonPropertyOrder({ "id", "option_name", "value" }) 
+@JsonPropertyOrder({ "id", "option_name", "value" })
 public class AppSettingsData {
+    
     private Integer id;
-    private String option_name;
+    private String optionName;
     private String value;
+
 
 }

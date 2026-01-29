@@ -29,7 +29,7 @@ export default function WristbandScreen() {
         </View>
       </View>
 
-      <Button buttonStyle="primary" title="ADD WRISTBAND" onPress={() => { }} />
+      <Button variant="primary" title="ADD WRISTBAND" onPress={() => { }} />
       </View>
 
 

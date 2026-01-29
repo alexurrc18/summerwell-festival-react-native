@@ -25,7 +25,7 @@ export default function StoreScreen() {
   const theme = Colors[useColorScheme() ?? "light"];
   const [activeTab, setActiveTab] = useState<"Active tickets" | "Past tickets">("Active tickets");
 
-  const { data: tickets, loading, refreshing, onRefresh } = useApiData<TicketType[]>('/public/ticket-type', 'cache_ticket_types');
+  const { data: tickets, loading, refreshing, onRefresh } = useApiData<TicketType[]>('/public/tickets', 'cache_tickets');
   const { token } = useAuth();
   const router = useRouter();
 

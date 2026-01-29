@@ -53,7 +53,7 @@ export default function TicketsScreen() {
 
       {/* BUY TICKETS */}
       <View style={{ position: 'absolute', bottom: 16, right: 16 }}>
-        <Button buttonStyle="secondary" title="BUY TICKETS" onPress={() => {router.push('/(tabs)/wallet/tickets')}} />
+        <Button variant="secondary" title="BUY TICKETS" onPress={() => {router.push('/(tabs)/wallet/tickets')}} />
       </View>
     </View>
   );

@@ -43,6 +43,7 @@ export default function MapScreen() {
   const theme = Colors[useColorScheme() ?? "light"];
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const { mapStyle, loadingBackgroundColor } = useMapStyle();
 
   // Filter state
   const [isFilterVisible, setFilterVisible] = useState(false);
@@ -98,7 +99,9 @@ export default function MapScreen() {
       <MapView
         ref={mapRef}
         provider={PROVIDER_GOOGLE}
-        customMapStyle={useMapStyle()}
+        customMapStyle={mapStyle}
+        loadingBackgroundColor={loadingBackgroundColor}
+        loadingEnabled
         style={{ position: 'absolute', flex: 1, top: 0, bottom: 0, left: 0, right: 0, zIndex: 0 }}>
 
         {mapPins?.map(pin => {

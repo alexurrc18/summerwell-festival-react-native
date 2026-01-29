@@ -12,5 +12,17 @@ public class AppSettingsService {
     public List<AppSettings> getAllAppSettings() {
         return appSettingsRepository.findAll();
     }
+
+    public Integer getCurrentEditionYear() {
+        return appSettingsRepository.findByOptionName("edition")
+                .map(setting -> {
+                    try {
+                        return Integer.parseInt(setting.getValue());
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                })
+                .orElse(null);
+    }
     
 }

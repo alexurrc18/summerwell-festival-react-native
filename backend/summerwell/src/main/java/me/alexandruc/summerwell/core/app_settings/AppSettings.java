@@ -14,7 +14,7 @@ public class AppSettings {
     private Integer id;
 
     @Column(name = "option_name", nullable = false)
-    private String option_name;
+    private String optionName;
 
     @Column(name = "value", nullable = false)
     private String value;

@@ -23,5 +23,7 @@ public class Stage {
 
     @Column(name = "color", nullable = false)
     private String color;
-    
+
+    @Column(name = "published", nullable = false)
+    private Boolean published;
 }

@@ -22,7 +22,7 @@ public class ArtistController {
 
     @GetMapping
     public ResponseEntity<?> getArtists() {
-        List<ArtistData> artists = artistService.getAllArtists().stream()
+        List<ArtistData> artists = artistService.getAllByPublished(true).stream()
                 .map(artistMapper::toData)
                 .collect(Collectors.toList());
 
@@ -39,7 +39,7 @@ public class ArtistController {
 
     @GetMapping("/day/{day}")
     public ResponseEntity<?> getArtistsByDay(@PathVariable("day") Integer day) {
-        List<ArtistData> artists = artistService.getArtistsByDay(day).stream()
+        List<ArtistData> artists = artistService.getArtistsByPublishedAndDay(day).stream()
                 .map(artistMapper::toData)
                 .collect(Collectors.toList());
 

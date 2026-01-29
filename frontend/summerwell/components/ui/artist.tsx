@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import React from "react";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,11 +9,16 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Palette } from "@/constants/theme";
 
 import FavHeart from "./favHeart";
+import { router, useRouter } from "expo-router";
 
 type Props = {
     id?: number;
     name: string;
     image?: string;
+    description?: string;
+    urlInstagram?: string;
+    urlSpotify?: string;
+
 
     schedule?: boolean;
     time?: string;
@@ -22,27 +27,44 @@ type Props = {
     placeholder?: boolean;
 };
 
-export default function Artist({ id = -1, name, image = "", schedule = false, time = "TBA", width = 100, favArtist = false, placeholder = false }: Props) {
+export default function Artist({ id = -1, name = "", image = "", description = "", urlInstagram = "", urlSpotify = "", schedule = false, time = "TBA", width = 100, favArtist = false, placeholder = false }: Props) {
     const theme = Colors[useColorScheme() ?? "light"];
+    const router = useRouter();
+
+    const handlePress = (id: number, name: string, image: string, description: string, urlInstagram: string, urlSpotify: string) => {
+            router.push({
+                pathname: "/(tabs)/lineup/artist",
+                params: { 
+                    id: id,
+                    name: name,
+                    image: image,
+                    description: description,
+                    urlInstagram: urlInstagram,
+                    urlSpotify: urlSpotify,
+                }
+            });
+    };
 
     if (!schedule) {
         if (!placeholder) {
             return (
-                <View style={{ width: 177, height: 177 }}>
-                    <Image source={{ uri: image }} contentFit="cover" transition={250} style={{ width: "100%", height: "100%", backgroundColor: theme.devider1_50 }} />
+                <Pressable onPress={() => handlePress(id, name, image, description, urlInstagram, urlSpotify)} >
+                    <View style={{ width: 177, height: 177 }}>
+                        <Image source={{ uri: image }} contentFit="cover" transition={250} style={{ width: "100%", height: "100%", backgroundColor: theme.devider1_50 }} />
 
-                    <LinearGradient
-                        colors={['transparent', Palette.black]}
-                        style={{ position: 'absolute', width: '100%', height: '100%', left: 0, right: 0, bottom: 0, opacity: 0.3 }}
-                    />
-                    <View style={{ position: 'absolute', top: 5, right: 5 }}>
-                        <FavHeart id={id} />
-                    </View>
+                        <LinearGradient
+                            colors={['transparent', Palette.black]}
+                            style={{ position: 'absolute', width: '100%', height: '100%', left: 0, right: 0, bottom: 0, opacity: 0.3 }}
+                        />
+                        <View style={{ position: 'absolute', top: 5, right: 5 }}>
+                            <FavHeart id={id} />
+                        </View>
 
-                    <View style={{ position: 'absolute', width: '100%', height: '100%' }}>
-                        <Text style={[Typography.Header2, { color: theme.artistText, position: 'absolute', bottom: 0, left: 0, paddingLeft: 5, paddingRight: 5, width: "100%" }]}>{name}</Text>
+                        <View style={{ position: 'absolute', width: '100%', height: '100%' }}>
+                            <Text style={[Typography.Header2, { color: theme.artistText, position: 'absolute', bottom: 0, left: 0, paddingLeft: 5, paddingRight: 5, width: "100%" }]}>{name}</Text>
+                        </View>
                     </View>
-                </View>
+                </Pressable>
             )
         } else {
             return (
@@ -72,9 +94,9 @@ export default function Artist({ id = -1, name, image = "", schedule = false, ti
                     <Text style={[Typography.Body2, { color: theme.textDark }]}>{time}</Text>
                 </View>
 
-                    <View style={{ position: 'absolute', right: 10 }}>
-                        <FavHeart id={id} iconScale={25} scheduleStyle={true} />
-                    </View>
+                <View style={{ position: 'absolute', right: 10 }}>
+                    <FavHeart id={id} iconScale={25} scheduleStyle={true} />
+                </View>
             </View>
         )
     }

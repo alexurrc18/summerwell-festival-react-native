@@ -14,6 +14,9 @@ type ArtistData = {
   actStart: string;
   actEnd: string;
   day: number;
+  description: string;
+  urlInstagram: string;
+  urlSpotify: string;
 };
 
 export default function Artists() {

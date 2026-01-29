@@ -11,7 +11,7 @@ public class AppSettingsMapper {
 
         AppSettingsData data = new AppSettingsData();
         data.setId(appSettings.getId());
-        data.setOption_name(appSettings.getOption_name());
+        data.setOptionName(appSettings.getOptionName());
         data.setValue(appSettings.getValue());
         
         return data;

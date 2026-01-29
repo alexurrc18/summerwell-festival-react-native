@@ -24,7 +24,7 @@ export default function CartScreen() {
             <Text style={[Typography.Body1, { color: theme.textDesc }]}>Do you have a voucher code? Add it below:</Text>
             <View style={{ flexDirection: 'row', gap: 10, height: 45 }}>
               <View style={{ flex: 1 }}><Input placeholder="Voucher" /></View>
-              <Button buttonStyle="secondary" title="APPLY" onPress={() => { }} />
+              <Button variant="secondary" title="APPLY" onPress={() => { }} />
             </View>
           </View>
         </ExpandableSection>
@@ -74,7 +74,7 @@ export default function CartScreen() {
             <Text style={[Typography.Body1, { color: theme.textDesc }]}>Do you have a voucher code? Add it below:</Text>
             <View style={{ flexDirection: 'row', gap: 10 }}>
               <View style={{ flex: 1 }}><Input placeholder="Code" /></View>
-              <Button buttonStyle="secondary" title="APPLY" onPress={() => { }} />
+              <Button variant="secondary" title="APPLY" onPress={() => { }} />
             </View>
           </View>
         </ExpandableSection>
@@ -87,7 +87,7 @@ export default function CartScreen() {
 
         <View style={{ alignSelf: 'center', gap: 10 }}>
           <View style={{ width: 220, alignSelf: 'center' }}>
-            <Button title="PLACE ORDER" buttonStyle="primary" />
+            <Button title="PLACE ORDER" variant="primary" />
           </View>
 
           <View style={{ paddingHorizontal: 4 }}>

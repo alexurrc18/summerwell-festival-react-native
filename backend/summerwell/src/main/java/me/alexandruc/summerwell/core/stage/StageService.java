@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 public class StageService {
     public final StageRepository stageRepository;
 
-    public List<Stage> getAllStages() {
-        return stageRepository.findAll();
+    public List<Stage> getAllPublishedStages() {
+        return stageRepository.findAllByPublished(true);
     }
     
     

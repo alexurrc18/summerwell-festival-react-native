@@ -1,4 +1,4 @@
-package me.alexandruc.summerwell.api.ticket_type;
+package me.alexandruc.summerwell.api.tickets;
 
 import java.math.BigDecimal;
 
@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @JsonPropertyOrder({ "ticketId", "name", "type", "year", "price", "stock", "color" })
-public class TicketTypeData {
+public class TicketsData {
     private String ticketId;
     private String name;
     private String type;

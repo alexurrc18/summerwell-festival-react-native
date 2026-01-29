@@ -87,6 +87,20 @@ export default function TabLayout() {
       {/* LINEUP */}
       <Tabs.Screen
         name="lineup"
+          listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            const isFocused = navigation.isFocused();
+            e.preventDefault();
+            if (!isFocused) {
+              navigation.dispatch(
+                CommonActions.reset({
+                  index: 0,
+                  routes: [{ name: 'lineup' }],
+                })
+              );
+            }
+          },
+        })}
         options={{
           title: "Lineup",
           tabBarIcon: ({ color }) => (

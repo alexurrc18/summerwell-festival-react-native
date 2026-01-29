@@ -3,7 +3,6 @@ package me.alexandruc.summerwell.api.user;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import me.alexandruc.summerwell.core.user.User;
 import me.alexandruc.summerwell.core.user.UserRepository;

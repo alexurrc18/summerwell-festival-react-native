@@ -49,7 +49,7 @@ export const Colors = {
     devider1: Palette.gray,
     devider1_50: Palette.lightGray,
     devider2: Palette.darkGray,
-    devider3: Palette.lightGray,
+    devider3: Palette.darkNavyBlue,
 
     mapGrass: "#71b65d",
     mapRoad: "#4f7f41",

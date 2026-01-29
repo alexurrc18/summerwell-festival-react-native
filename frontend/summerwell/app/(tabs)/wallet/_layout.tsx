@@ -39,11 +39,11 @@ export default function WalletLayout() {
         options={{
           header: () => (
             <Header title="Tickets" backgroundColor={theme.subheader} 
-              left= { <Button buttonStyle="icon"  icon={<BackIcon width={30} height={30} fill={Palette.white} />}  onPress={() => router.back()} />
+              left= { <Button variant="icon"  icon={<BackIcon width={30} height={30} fill={Palette.white} />}  onPress={() => router.back()} />
               }
               right={
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                  <Button  buttonStyle="icon" icon={<CartIcon width={30} height={30} fill={Palette.white} />} onPress={() => {
+                  <Button  variant="icon" icon={<CartIcon width={30} height={30} fill={Palette.white} />} onPress={() => {
                     if(token) 
                       router.push("/(tabs)/wallet/cart");
                     else
@@ -64,7 +64,7 @@ export default function WalletLayout() {
           header: () => (
             <Header title="Cart" backgroundColor={theme.subheader}
               left={
-                <Button buttonStyle="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />
+                <Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />
               }
             />
           ),
@@ -78,7 +78,7 @@ export default function WalletLayout() {
           header: () => (
             <Header title="Checkout" backgroundColor={theme.subheader}
               left={
-                <Button buttonStyle="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
+                <Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
             />
           ),
         }}
@@ -90,7 +90,7 @@ export default function WalletLayout() {
         options={{
           header: () => (
             <Header title="Add Wristband"backgroundColor={theme.subheader} 
-              left={ <Button buttonStyle="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
+              left={ <Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
             />
           ),
         }}

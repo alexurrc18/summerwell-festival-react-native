@@ -18,6 +18,9 @@ public class ArtistMapper {
         data.setActStart(artist.getActStart().toString());
         data.setActEnd(artist.getActEnd().toString());
         data.setPriority(artist.getPriority());
+        data.setDescription(artist.getDescription());
+        data.setUrlInstagram(artist.getUrlInstagram());
+        data.setUrlSpotify(artist.getUrlSpotify());
         
         return data;
     }

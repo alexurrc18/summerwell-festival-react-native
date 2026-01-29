@@ -1,4 +1,4 @@
-package me.alexandruc.summerwell.core.ticket_type;
+package me.alexandruc.summerwell.core.tickets;
 
 import java.math.BigDecimal;
 
@@ -6,9 +6,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "ticket_types")
+@Table(name = "tickets")
 @Data
-public class TicketType {
+public class Tickets {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,4 +33,6 @@ public class TicketType {
     @Column(name = "color", nullable = false)
     private String color;
     
+    @Column(name = "published", nullable = false)
+    private Boolean published;
 }

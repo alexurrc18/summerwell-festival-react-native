@@ -15,7 +15,7 @@ interface FavHeartProps {
 }
 
 export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: FavHeartProps) {
-    const { toggleFavoriteArtist, localFavoriteArtists } = useAuth();
+    const { toggleFavoriteArtist, localFavoriteArtists, isAuthenticated } = useAuth();
     const scale = useSharedValue(1);
     const theme = Colors[useColorScheme() ?? "light"];
     const [isFavorite, setIsFavorite] = useState<boolean>(localFavoriteArtists.includes(Number(id)));
@@ -33,7 +33,7 @@ export default function FavHeart({ id, iconScale = 30, scheduleStyle = false }: 
 
     const handlePress = () => {
         toggleFavoriteArtist(Number(id));
-        if (useAuth().isAuthenticated())
+        if (isAuthenticated())
             {
                 setIsFavorite(!isFavorite);
             }

@@ -35,7 +35,7 @@ public class StageController {
 
     @GetMapping
     public ResponseEntity<?> getStages() {
-        List<StageData> stages = stageService.getAllStages().stream()
+        List<StageData> stages = stageService.getAllPublishedStages().stream()
                 .map(stageMapper::toStageData)
                 .collect(Collectors.toList());
 
