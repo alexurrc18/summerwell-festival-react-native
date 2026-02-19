@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import React, { useState } from "react";
 
@@ -62,10 +62,13 @@ export default function Ticket({ type, name = "Not set", description, color = Pa
                 </View>
 
                 {/* BUTTON */}
-                <Pressable style={{ backgroundColor: Palette.orange, width: 50, justifyContent: "center", alignItems: "center", borderTopRightRadius: 15, borderBottomRightRadius: 15 }} onPress={onPress}>
-
-                    <Button variant="icon" icon={inCart === false ? <PlusIcon fill={Palette.white} width={12} height={12} /> : <TrashIcon fill={Palette.white} width={20} height={20} />} />
-                </Pressable>
+                <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Palette.orange, width: 50, justifyContent: "center", alignItems: "center", borderTopRightRadius: 15, borderBottomRightRadius: 15, }}  onPress={onPress} >
+                    {inCart === false ? (
+                        <PlusIcon fill={Palette.white} width={12} height={12} />
+                    ) : (
+                        <TrashIcon fill={Palette.white} width={20} height={20} />
+                    )}
+                </TouchableOpacity>
             </View>
         )
     }
@@ -75,7 +78,7 @@ export default function Ticket({ type, name = "Not set", description, color = Pa
             <View style={{ width: '100%' }}>
 
                 {/* HEADER */}
-                <View style={{flexDirection: "row", height: 60, backgroundColor: theme.background }}>
+                <View style={{ flexDirection: "row", height: 60, backgroundColor: theme.background }}>
 
                     {/* TICKET IMAGE */}
                     <View style={{ width: 60, backgroundColor: color, justifyContent: "center", alignItems: "center", borderTopLeftRadius: 20, borderBottomLeftRadius: expanded ? 0 : 20 }}>
@@ -84,8 +87,8 @@ export default function Ticket({ type, name = "Not set", description, color = Pa
 
                     {/* TICKET TYPE & EXPAND BUTTON */}
                     <View style={{ flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingLeft: 15, backgroundColor: theme.background, borderTopWidth: 2.5, borderBottomWidth: 2.5, borderRightWidth: 2.5, borderColor: theme.devider1, borderTopRightRadius: 20, borderBottomRightRadius: expanded ? 0 : 20 }}>
-                        
-                        
+
+
                         <Text style={[Typography.Header3, { color: theme.textDark, flex: 1 }]}>
                             {name}
                         </Text>
@@ -110,7 +113,7 @@ export default function Ticket({ type, name = "Not set", description, color = Pa
                                 <QRCode value={ticketID} size={130} />
                                 <Text style={[Typography.Body2, { color: Palette.black, }]}>{ticketID}</Text>
                             </View>
-                    
+
                             <Text style={[Typography.Body2, { color: theme.textDark }]}>
                                 Wristband: {wristbandID}
                             </Text>

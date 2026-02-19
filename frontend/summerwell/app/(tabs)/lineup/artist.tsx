@@ -9,6 +9,7 @@ import Header from "@/components/ui/header";
 import { router, useLocalSearchParams } from "expo-router";
 import Button from "@/components/ui/button";
 import * as WebBrowser from 'expo-web-browser';
+import * as Linking from 'expo-linking';
 
 import XIcon from "@/assets/icons/icon_x.svg";
 import SpotifyIcon from "@/assets/icons/icon_spotify.svg";
@@ -59,7 +60,7 @@ export default function artistModal() {
                   <InstagramIcon width={30} height={30} fill={theme.textDark} />
                 } onPress={() => {
                   const instagramUrl = urlInstagram as string;
-                  WebBrowser.openBrowserAsync(instagramUrl);
+                  Linking.openURL(instagramUrl);
                 }}
                 />
               )}
@@ -69,7 +70,7 @@ export default function artistModal() {
                   <SpotifyIcon width={30} height={30} fill={theme.textDark} />
                 } onPress={() => {
                   const spotifyUrl = urlSpotify as string;
-                  WebBrowser.openBrowserAsync(spotifyUrl);
+                  Linking.openURL(spotifyUrl);
                 }}
                 />
               )}

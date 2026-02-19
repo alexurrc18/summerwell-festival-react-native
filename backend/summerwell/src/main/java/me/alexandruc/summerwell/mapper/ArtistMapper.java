@@ -1,0 +1,29 @@
+package me.alexandruc.summerwell.mapper;
+
+import me.alexandruc.summerwell.dto.ArtistData;
+import me.alexandruc.summerwell.entity.Artist;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class ArtistMapper {
+    
+    public ArtistData toData(Artist artist) {
+        if (artist == null) return null;
+
+        ArtistData data = new ArtistData();
+        data.setId(artist.getId().toString());
+        data.setName(artist.getName());
+        data.setImage(artist.getImage());
+        data.setDay(artist.getDayNumber());
+        data.setStageName(artist.getStage().getName());
+        data.setActStart(artist.getActStart().toString());
+        data.setActEnd(artist.getActEnd().toString());
+        data.setPriority(artist.getPriority());
+        data.setDescription(artist.getDescription());
+        data.setUrlInstagram(artist.getUrlInstagram());
+        data.setUrlSpotify(artist.getUrlSpotify());
+        
+        return data;
+    }
+}

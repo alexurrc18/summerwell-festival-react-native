@@ -1,7 +1,8 @@
 package me.alexandruc.summerwell.security;
 
-import me.alexandruc.summerwell.core.user.User;
-import me.alexandruc.summerwell.core.user.UserRepository;
+import me.alexandruc.summerwell.entity.user.User;
+import me.alexandruc.summerwell.repository.user.UserRepository;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

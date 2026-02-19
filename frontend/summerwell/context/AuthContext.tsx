@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext} from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { TOKEN_KEY } from '@/constants/config';
 import * as SecureStore from 'expo-secure-store';
 import { useApiData } from '@/hooks/apiData';
@@ -23,6 +23,9 @@ interface AuthContextType {
     isArtistFavorite: (artistId: number) => boolean;
     toggleFavoriteArtist: (artistId: number) => Promise<void>;
     localFavoriteArtists: number[];
+
+    addToCart: (ticketId: number | string) => Promise<void>;
+    removeFromCart: (ticketId: number | string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -91,7 +94,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 console.error('WRONG: Invalid PIN provided.');
                 return false;
             } else {
-            console.error('ERROR: PIN could not be verified.', error);
+                console.error('ERROR: PIN could not be verified.', error);
             }
             return false;
         }
@@ -152,7 +155,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // USER DATA
     // personal details
     const { data: userData } = useApiData<number[]>('/user/me', 'user_data', { dependency: userToken });
-    const [ localUserData , setLocalUserData ] = useState<any>(null);
+    const [localUserData, setLocalUserData] = useState<any>(null);
 
     useEffect(() => {
         if (!userToken) {
@@ -183,7 +186,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const { data: favoriteArtists } = useApiData<number[]>('/user/favorites/artists', 'favorite_artists', { dependency: userToken });
     const [localFavoriteArtists, setLocalFavoriteArtists] = useState<number[]>([]);
-    
+
     useEffect(() => {
         if (!userToken) {
             setLocalFavoriteArtists([]);
@@ -224,16 +227,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
 
+    const addToCart = async (ticketId: number | string) => {
+        if (!isAuthenticated(true)) return;
+
+        try {
+            await api.post(`/user/cart/add/${ticketId}`, {});
+        } catch (error) {
+            console.error("Failed to add to cart:", error);
+        }
+    };
+
+    const removeFromCart = async (ticketId: number | string) => {
+        if (!isAuthenticated(true)) return;
+
+        try {
+            await api.delete(`/user/cart/remove/${ticketId}`, {});
+        } catch (error) {
+            console.error("Failed to remove from cart:", error);
+        }
+    };
 
 
 
- 
+
 
     return (
-        <AuthContext.Provider value={{ 
-            token: userToken, signIn, verifyPin, logout, deleteAccount, isAuthenticated, 
+        <AuthContext.Provider value={{
+            token: userToken, signIn, verifyPin, logout, deleteAccount, isAuthenticated,
             updateData, localUserData,
-            isArtistFavorite, toggleFavoriteArtist, localFavoriteArtists }}>
+            isArtistFavorite, toggleFavoriteArtist, localFavoriteArtists,
+            addToCart, removeFromCart
+        }}>
 
             {children}
 

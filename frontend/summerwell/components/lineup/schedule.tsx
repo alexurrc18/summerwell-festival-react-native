@@ -277,7 +277,7 @@ export default function Schedule() {
         </ScrollView>
 
         <View style={{ position: 'absolute', bottom: 16, right: 16 }}>
-          <Button buttonStyle="secondary" title={filter === "FULL LINE-UP" ? "MY LINE-UP" : "FULL LINE-UP"} onPress={() => { 
+          <Button variant="secondary" title={filter === "FULL LINE-UP" ? "MY LINE-UP" : "FULL LINE-UP"} onPress={() => { 
             setFilter(filter === "FULL LINE-UP" ? "MY LINE-UP" : "FULL LINE-UP");
              }} />
         </View>

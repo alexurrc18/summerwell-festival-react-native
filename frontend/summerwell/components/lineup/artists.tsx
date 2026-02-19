@@ -23,7 +23,7 @@ export default function Artists() {
   const theme = Colors[useColorScheme() ?? "light"];
   const [activeTab, setActiveTab] = useState<"All" | "Friday" | "Saturday" | "Sunday">("All");
 
-  const { data: artists, loading, refreshing, onRefresh } = useApiData<ArtistData[]>('/public/artists', 'cache_artists');
+  const { data: artists, loading } = useApiData<ArtistData[]>('/public/artists', 'cache_artists');
   
   const [filteredArtists, setFilteredArtists] = useState<ArtistData[]>([]);
 
@@ -101,15 +101,6 @@ export default function Artists() {
           contentContainerStyle={{ paddingHorizontal: 13, marginTop: 16, paddingBottom: 16 }}
           stickySectionHeadersEnabled={false}
           showsVerticalScrollIndicator={false}
-
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor={theme.textDesc}
-              colors={[theme.textDesc]}
-            />
-          }
 
           renderSectionHeader={({ section: { title } }) => (
             <View style={{ paddingHorizontal: 5 }}>

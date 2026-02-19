@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as SecureStore from 'expo-secure-store';
-import { API_URL, TOKEN_KEY } from '@/constants/config';
 import api from '@/services/api';
 
 
