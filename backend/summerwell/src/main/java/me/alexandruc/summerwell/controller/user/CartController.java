@@ -34,6 +34,19 @@ public class CartController {
         return ResponseEntity.ok(cartItems);
     }
 
+@GetMapping("/count")
+public ResponseEntity<Integer> getCountCartItems(Authentication authentication) {
+    Long userId = getAuthenticatedUserId(authentication);
+
+    var cartItems = cartService.getCartItemsByUserId(userId);
+    
+    int count = cartItems.stream()
+            .mapToInt(item -> item.getQuantity())
+            .sum();
+
+    return ResponseEntity.ok(count);
+}
+
     @PostMapping("/add/{ticketId}")
     public ResponseEntity<?> addToCart(Authentication authentication, @PathVariable("ticketId") Long ticketId) {
         Long userId = getAuthenticatedUserId(authentication);

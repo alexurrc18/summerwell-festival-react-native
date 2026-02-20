@@ -1,5 +1,4 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState, useEffect } from "react";
 import { Stack, useRouter } from "expo-router";
 
 import { Colors, Palette } from "@/constants/theme";
@@ -7,7 +6,6 @@ import { useColorScheme } from "@/hooks/use-color-scheme";
 import { Typography } from "@/constants/typography";
 
 import BackIcon from "@/assets/icons/icon_chevron-left.svg";
-import CartIcon from "@/assets/icons/icon_cart.svg";
 
 import Button from "@/components/ui/button";
 import Header from "@/components/ui/header";
@@ -27,8 +25,7 @@ export default function WalletLayout() {
         name="index"
         options={{
           header: () => (
-            <Header title="My Wallet" backgroundColor={theme.header} 
-            />
+            <Header title="My Wallet" backgroundColor={theme.header} />
           ),
         }}
       />
@@ -37,23 +34,7 @@ export default function WalletLayout() {
       <Stack.Screen
         name="tickets"
         options={{
-          header: () => (
-            <Header title="Tickets" backgroundColor={theme.subheader} 
-              left= { <Button variant="icon"  icon={<BackIcon width={30} height={30} fill={Palette.white} />}  onPress={() => router.back()} />
-              }
-              right={
-                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
-                  <Button  variant="icon" icon={<CartIcon width={30} height={30} fill={Palette.white} />} onPress={() => {
-                    if(token) 
-                      router.push("/(tabs)/wallet/cart");
-                    else
-                      router.push("/(auth)");
-                  }} />
-                  <Text style={[Typography.Header3, { color: Palette.white }]}> </Text>
-                </View>
-              }
-            />
-          ),
+          headerShown: false
         }}
       />
 
@@ -63,9 +44,7 @@ export default function WalletLayout() {
         options={{
           header: () => (
             <Header title="Cart" backgroundColor={theme.subheader}
-              left={
-                <Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />
-              }
+              left={<Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
             />
           ),
         }}
@@ -77,8 +56,7 @@ export default function WalletLayout() {
         options={{
           header: () => (
             <Header title="Checkout" backgroundColor={theme.subheader}
-              left={
-                <Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
+              left={<Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
             />
           ),
         }}
@@ -89,8 +67,8 @@ export default function WalletLayout() {
         name="wristband"
         options={{
           header: () => (
-            <Header title="Add Wristband"backgroundColor={theme.subheader} 
-              left={ <Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
+            <Header title="Add Wristband" backgroundColor={theme.subheader} 
+              left={<Button variant="icon" icon={<BackIcon width={30} height={30} fill={Palette.white} />} onPress={() => router.back()} />}
             />
           ),
         }}

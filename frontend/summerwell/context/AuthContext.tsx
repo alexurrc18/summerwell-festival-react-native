@@ -4,7 +4,6 @@ import * as SecureStore from 'expo-secure-store';
 import { useApiData } from '@/hooks/apiData';
 import { router } from 'expo-router';
 import api from '@/services/api';
-import { push } from 'expo-router/build/global-state/routing';
 import { Alert } from 'react-native';
 
 
