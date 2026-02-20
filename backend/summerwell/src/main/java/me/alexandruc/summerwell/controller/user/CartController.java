@@ -4,6 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+
 import lombok.AllArgsConstructor;
 import me.alexandruc.summerwell.dto.user.CartData;
 import me.alexandruc.summerwell.service.user.CartService;
@@ -23,7 +25,10 @@ public class CartController {
 
         var cartItems = cartService.getCartItemsByUserId(userId)
                 .stream()
-                .map(cartItem -> new CartData(cartItem.getTicket()))
+                .flatMap(cartItem -> Collections.nCopies(
+                        cartItem.getQuantity(), 
+                        new CartData(cartItem.getTicket())
+                ).stream())
                 .toList();
 
         return ResponseEntity.ok(cartItems);

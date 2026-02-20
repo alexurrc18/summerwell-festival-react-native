@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
 import { Typography } from "@/constants/typography";
 import { Palette } from "@/constants/theme";
 import { Colors } from "@/constants/theme";
@@ -30,20 +30,30 @@ export default function CartScreen() {
   const { removeFromCart, token } = useAuth();
   
   const [displayItems, setDisplayItems] = useState<CartItemType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
       let isActive = true;
 
       const fetchCartItems = async () => {
-        if (!token) return;
+        if (!token) {
+          setIsLoading(false);
+          return;
+        }
+        
         try {
+          setIsLoading(true);
           const response = await api.get('/user/cart');
           if (isActive) {
             setDisplayItems(response.data);
           }
         } catch (error) {
           console.error(error);
+        } finally {
+          if (isActive) {
+            setIsLoading(false);
+          }
         }
       };
 
@@ -69,11 +79,24 @@ export default function CartScreen() {
     await removeFromCart(ticketId);
   };
 
-  const totalPrice = displayItems.reduce((sum, item) => sum + item.ticket.price, 0) || 0;
+  const totalPrice = displayItems.reduce((sum, item) => sum + (Number(item.ticket?.price) || 0), 0) || 0;
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.background, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={theme.textDark} />
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
-      <ScrollView style={{ flex: 1, padding: 16 }} contentContainerStyle={{ gap: 16, paddingBottom: 75 }}>
+      <ScrollView 
+        style={{ flex: 1, padding: 16 }} 
+        contentContainerStyle={{ gap: 16, paddingBottom: 16 }}
+        showsVerticalScrollIndicator={true}
+        persistentScrollbar={true}
+      >
         {displayItems.length > 0 ? (
           displayItems.map((item, index) => (
             <Ticket
@@ -92,8 +115,10 @@ export default function CartScreen() {
             There are no tickets available to display.
           </Text>
         )}
-        
-        <View style={{width: '100%', gap: 5}}>
+      </ScrollView>
+
+      <View style={{ padding: 16, backgroundColor: theme.background, gap: 16, paddingBottom: 24 }}>
+        <View style={{ width: '100%', gap: 5 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
             <Text style={[Typography.Body1, { color: theme.textDesc }]}>Subtotal:</Text>
             <Text style={[Typography.Body1, { color: theme.textDark }]}>{totalPrice} RON</Text>
@@ -103,10 +128,15 @@ export default function CartScreen() {
             <Text style={[Typography.Header2, { color: theme.textDark }]}>{totalPrice} RON</Text>
           </View>
         </View>
-      </ScrollView>
 
-      <View style={{position: 'absolute', bottom: 16, alignSelf: 'center'}}>
-        <Button  title="CONTINUE"  variant="primary"  onPress={() => {router.push("/(tabs)/wallet/checkout")}} disabled={displayItems.length === 0}/>
+        <View style={{ alignSelf: 'center', width: '100%' }}>
+          <Button  
+            title="CONTINUE"  
+            variant="primary"  
+            onPress={() => {router.push("/(tabs)/wallet/checkout")}} 
+            disabled={displayItems.length === 0}
+          />
+        </View>
       </View>
     </View>
   );
