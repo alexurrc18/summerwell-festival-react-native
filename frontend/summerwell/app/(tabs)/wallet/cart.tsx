@@ -112,7 +112,7 @@ export default function CartScreen() {
           ))
         ) : (
           <Text style={[Typography.Header3, { textAlign: 'center', marginTop: 20, color: theme.textDesc }]}>
-            There are no tickets available to display.
+            There are no tickets available.
           </Text>
         )}
       </ScrollView>

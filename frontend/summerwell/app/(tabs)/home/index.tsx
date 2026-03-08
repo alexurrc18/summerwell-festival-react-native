@@ -18,7 +18,7 @@ import { useApiData } from "@/hooks/apiData";
 
 type AppSettingsData = {
   id: number;
-  option_name: string;
+  optionName: string;
   value: string;
 };
 
@@ -67,7 +67,7 @@ export default function HomeScreen() {
   const [timeLeft, setTimeLeft] = useState("SOON!");
 
   useEffect(() => {
-    const dateSetting = settings?.find(setting => setting.option_name === 'dateStart');
+    const dateSetting = settings?.find(setting => setting.optionName === 'dateStart');
 
     if (!dateSetting) return;
     const targetTime = new Date(dateSetting.value).getTime();

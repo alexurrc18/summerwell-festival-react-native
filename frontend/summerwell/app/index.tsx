@@ -13,9 +13,10 @@ export default function SplashScreen() {
 
   const { loading: loadingArtists } = useApiData('/public/artists', 'cache_artists');
   const { loading: loadingStages } = useApiData('/public/stages', 'cache_stages');
+  const { loading: loadingAppSettings } = useApiData('/public/app_settings', 'cache_app_settings');
 
   useEffect(() => {
-    if (!loadingArtists && !loadingStages) {
+    if (!loadingArtists && !loadingStages && !loadingAppSettings) {
       router.replace("/(tabs)/home");
     } else {
         const timeout = setTimeout(() => {

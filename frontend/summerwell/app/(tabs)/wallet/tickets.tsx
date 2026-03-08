@@ -53,6 +53,8 @@ export default function StoreScreen() {
     }, [token])
   );
 
+  const { isAuthenticated } = useAuth();
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.background }}>
       <Header title="Tickets" backgroundColor={theme.subheader}
@@ -84,18 +86,20 @@ export default function StoreScreen() {
               color={Palette[ticket.color as keyof typeof Palette]}
               price={`${ticket.price} RON`}
               onPress={async () => {
-                setCartCount(prev => prev + 1);
-                try {
-                  await addToCart(ticket.ticketId);
-                } catch (error) {
-                  setCartCount(prev => prev - 1);
-                }
+                if (isAuthenticated(true)) {
+                  setCartCount(prev => prev + 1);
+                  try {
+                    await addToCart(ticket.ticketId);
+                  } catch (error) {
+                    setCartCount(prev => prev - 1);
+                  }
+                } else setCartCount(0);
               }}
             />
           ))
         ) : (
           <Text style={[Typography.Header3, { textAlign: 'center', marginTop: 20, color: theme.textDesc }]}>
-            There are no tickets available to display.
+            There are no tickets available.
           </Text>
         )}
       </ScrollView>

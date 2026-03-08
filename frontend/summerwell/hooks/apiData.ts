@@ -8,7 +8,7 @@ interface ApiOptions {
 }
 
 
-export function useApiData<Type>( endpoint: string, cacheKey: string, options: ApiOptions = {}) {
+export function useApiData<Type>(endpoint: string, cacheKey: string, options: ApiOptions = {}) {
   const { dependency } = options;
 
   const [data, setData] = useState<Type | null>(null);
@@ -19,9 +19,9 @@ export function useApiData<Type>( endpoint: string, cacheKey: string, options: A
   // Normalize data structure
   const normalizeData = (input: any): Type => {
     if (!input) return input;
-    if(typeof input === 'object'){
+    if (typeof input === 'object') {
       const array = Object.values(input).find(v => Array.isArray(v));
-      if(array){
+      if (array) {
         return array as unknown as Type;
       }
     }
@@ -40,12 +40,15 @@ export function useApiData<Type>( endpoint: string, cacheKey: string, options: A
 
         await AsyncStorage.setItem(cacheKey, JSON.stringify(cleanData));
         setData(cleanData);
-      } else if(response.status === 401) {
-          await AsyncStorage.removeItem(cacheKey);
-          setData(null);
-      } else console.warn(`API Error: ${response.status}`);
-    } catch (error) {
-      console.warn("[WARNING] Servers are unreachable. Using cached data.", error);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        console.warn(`[!] API ERROR (${endpoint}). Cache cleared.`, error);
+        await AsyncStorage.removeItem(cacheKey);
+        setData(null);
+      } else {
+        console.warn("[WARNING] Servers are unreachable. Using cached data.", error);
+      }
     }
   };
 

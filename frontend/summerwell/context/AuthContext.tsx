@@ -109,6 +109,32 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUserToken(null);
     }
 
+
+    // VERIFY TOKEN EXPIRATION ON EVERY API RESPONSE
+    useEffect(() => {
+        const interceptor = api.interceptors.response.use(
+            (response) => {
+                return response;
+            },
+            async (error) => {
+                if (error.response && error.response.data.type === "TokenExpiredError") {
+                    console.warn('[!] TOKEN EXPIRED. Logging out user.');
+
+                    await SecureStore.deleteItemAsync(TOKEN_KEY);
+                    setUserToken(null);
+                    setLocalUserData(null);
+                    setLocalFavoriteArtists([]);
+                }
+                return Promise.reject(error);
+            }
+        );
+
+        return () => {
+            api.interceptors.response.eject(interceptor);
+        };
+    }, []);
+
+
     // DELETE ACCOUNT
     const deleteAccount = async () => {
         Alert.alert(
